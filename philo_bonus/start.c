@@ -65,7 +65,7 @@ int	start(t_rule *rule)
 	return (0);
 }
 
-void	print(t_rule *rule, int id, char *string)// 출력 겹치지 않게
+void	print(t_rule *rule, int id, char *string)
 {
 	sem_wait(rule->print);
 	if (rule->diephi < 1)

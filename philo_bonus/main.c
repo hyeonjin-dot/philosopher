@@ -12,6 +12,24 @@
 
 #include "philosopher.h"
 
+void	die_ck(t_philo *philo, t_rule *new)
+{
+	if (new->eat > new->die)
+	{
+		while (timecheck(philo->last_eat, timestamp()) < new->die)
+			usleep(100);
+		print(new, 0, "died");
+		new->diephi = 2;
+	}
+	else if (timecheck(philo->last_eat, timestamp()) + new->eat > new->die)
+	{
+		while (timecheck(philo->last_eat, timestamp()) < new->die)
+			usleep(100);
+		new->diephi++;
+		print(new, philo->id, "die");
+	}
+}
+
 void	ck_eat(t_philo *philo)
 {
 	t_rule		*new;
@@ -20,17 +38,12 @@ void	ck_eat(t_philo *philo)
 	new = philo->rule;
 	nid = philo->id;
 	sem_wait(new->fork);
-	print(new, philo->id, "has taken a fork");
 	sem_wait(new->fork);
 	print(new, philo->id, "has taken a fork");
+	print(new, philo->id, "has taken a fork");
 	print(new, philo->id, "is eating");
-	if (timecheck(philo->last_eat, timestamp()) + new->eat > new->die)
-	{
-		while (timecheck(philo->last_eat, timestamp()) < new->die)
-			usleep(100);
-		new->diephi++;
-		print(new, philo->id, 0);
-	}
+	if (new->eat > new->die || timecheck(philo->last_eat, timestamp()) + new->eat > new->die)
+		die_ck(philo, new);
 	else
 		ck_sleep(new->eat, new);
 	philo->last_eat = timestamp();
