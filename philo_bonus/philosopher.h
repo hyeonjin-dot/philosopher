@@ -46,6 +46,7 @@ typedef struct s_rule
 	t_philo			*philo;
 	sem_t			*fork;
 	sem_t			*print;
+	sem_t			*dieck;
 }	t_rule;
 
 int			ft_atoi(const char *str);

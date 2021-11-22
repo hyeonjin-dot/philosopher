@@ -32,11 +32,15 @@ int	init_mutex(t_rule *rule)
 {
 	sem_unlink("/num_sem");
 	sem_unlink("/test_sem");
+	sem_unlink("/die_sem");
 	rule->fork = sem_open("/num_sem", O_CREAT, S_IRWXU, rule->pnum);
 	if (rule->fork <= 0)
 		return (1);
 	rule->print = sem_open("/test_sem", O_CREAT, S_IRWXU, 1);
 	if (rule->print <= 0)
+		return (1);
+	rule->dieck = sem_open("/die_sem", O_CREAT, S_IRWXU, 1);
+	if (rule->dieck <= 0)
 		return (1);
 	return (0);
 }

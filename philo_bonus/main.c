@@ -23,10 +23,12 @@ void	die_ck(t_philo *philo, t_rule *new)
 	}
 	else if (timecheck(philo->last_eat, timestamp()) + new->eat > new->die)
 	{
+		sem_wait(new->dieck);
 		while (timecheck(philo->last_eat, timestamp()) < new->die)
 			usleep(100);
 		new->diephi++;
 		print(new, philo->id, "die");
+		sem_post(new->dieck);
 	}
 }
 

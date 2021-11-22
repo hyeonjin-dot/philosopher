@@ -22,8 +22,10 @@ void	ft_destroy_mutex(t_rule *rule)
 	free(rule->philo);
 	sem_close(rule->fork);
 	sem_close(rule->print);
+	sem_close(rule->dieck);
 	sem_unlink("/num_sem");
 	sem_unlink("/test_sem");
+	sem_unlink("/die_sem");
 }
 
 void	*th_start(void *ph)
@@ -79,7 +81,7 @@ void	print(t_rule *rule, int id, char *string)
 		printf("%lldms\t", timecheck(rule->startime, timestamp()));
 		printf("%d died\n", id + 1);
 		rule->diephi++;
-	}
+		}
 	sem_post(rule->print);
 	return ;
 }
